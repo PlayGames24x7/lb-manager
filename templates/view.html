@@ -1,0 +1,193 @@
+<!doctype html>
+<html>
+<head>
+<title>Haproxy GUI for Deployment</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/css/main.css') }}">
+
+<script type="text/javascript">
+function setClass(){
+var theinputs = document.getElementsByTagName("input");
+var i;
+for(i = 0; i < theinputs.length; i++)
+{
+if(theinputs[i].type == "radio" || theinputs[i].type == "checkbox")
+{
+theinputs[i].className = 'radio';
+}
+if(theinputs[i].type == "text" || theinputs[i].type == "password")
+{
+theinputs[i].className = 'text';
+}
+if(theinputs[i].type == "submit" || theinputs[i].type == "reset")
+{
+theinputs[i].className = 'submit';
+}
+}
+}
+window.onload = setClass;
+</script>
+
+</head>
+<body>
+
+<div class="mainwidtharea">
+<div id="maincontainer">
+
+<div id="topsection">
+
+<div class="innertube">
+<div class="topright"><div><a href="/logout" onClick="return confirm('Do you really want to log out?')">Logout</a></div></div>
+
+<!--<h1>CSS Liquid Layout #2.1- (Fixed-Fluid)</h1>-->
+</div>
+</div>
+
+   <table class="tg" id="table-body">
+      <tr>
+         <th>Application</th>
+         <th>Haproxy Servers</th>
+         <th>Current State</th>
+         <th>Active Connections</th>
+         <th></th>
+      </tr>
+
+      {% for app in doc %}
+        {% for server in doc[app].servers %}
+
+        <tr id="{{ app }}">
+
+        {% if loop.first %}
+          <td rowspan="{{ doc[app].servers | length }}">{{ app }}</td>
+        {% endif %}
+
+        <td>{{ server }}</td>
+        <td>{{ doc[app].servers[server] }}</td>
+        <td>{{ doc[app].requests[server] }}</td>
+        <td>
+            {% if doc[app].servers[server] == "UP" %}
+            <a href="#" id="{{ server }}" class="{{ app }}" onclick="changeText(this)">Disable</a>
+            {% else %}
+            <a href="#" id="{{ server }}" class="{{ app }}" onclick="changeText(this)">Enable</a>
+            {% endif %}
+        </td>
+        </tr>
+        {% endfor %}
+      {% endfor %}
+
+   </table>
+
+<script src="{{ url_for('static', filename='styles/js/jquery-3.2.1.min.js') }}"></script>
+<script>
+
+function changeText(param)
+{
+
+    var enabled_svrs = 0;
+    var all_svr_states = document.getElementsByClassName(param.className);
+    for (var i=0; i<all_svr_states.length; i++) {
+        if (all_svr_states[i].innerHTML == "Disable"){
+            enabled_svrs+=1;
+        }
+    }
+
+    if (enabled_svrs < 2 && param.innerHTML == "Disable") {
+        alert("Sorry! This operation cannot be performed");
+        return
+    }
+
+    var conf = confirm('Are you sure?');
+    if (conf === false){
+        return
+    }
+
+    var url = "/state-change/"
+    var old_state = param.innerHTML;
+    
+    if (old_state == "Disable"){
+        var action = "disabled";
+    }
+    else {   
+        var action = "enabled";
+    }
+
+    var data = "backend=" + param.parentNode.parentNode.id + "&server=" + param.id + "&action=" + action
+
+    ajax(url, test, data, param, old_state)
+
+    param.innerHTML = "In Progress..";
+}
+
+function test(param, old_state)
+{
+    console.log("In Callback")
+    if (old_state == "Disable"){
+        param.innerHTML = "Enable";
+        sendemail(param.id,'Disabled');
+    }
+    else {
+        param.innerHTML = "Disable";
+        sendemail(param.id,'Enabled');
+    }
+}
+
+function sendemail(server, state)
+{
+
+    svr_data = "server=" + server + "&state=" + state
+    console.log(svr_data);
+    $.ajax({
+     type: "POST",
+     url: '/sendEmail',
+     data: svr_data,
+     contentType: 'application/x-www-form-urlencoded',
+     success: function(response){
+         console.log('Email Sent');
+     }
+});
+
+}
+
+
+function ajax(url, callback, data, param, old_state) 
+{
+    try {
+       var x = new(this.XMLHttpRequest || ActiveXObject)('MSXML2.XMLHTTP.3.0');
+        x.open(data ? 'POST' : 'GET', url, 1);
+        x.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        x.onreadystatechange = function () {
+            x.readyState > 3 && callback(param, old_state);
+        };
+        x.send(data)
+    } 
+    catch (e) {
+        window.console && console.log(e);
+    }
+};
+
+var ajax_call = function() {
+    console.log("Timer based ajax call");
+
+    $.ajax({
+     type: "GET",
+     url: '/getData',
+     success: function(response){
+         console.log("Success")
+         $("#table-body").html(response);
+     }
+});
+
+};
+
+function timedRefresh(timeoutPeriod) {
+        setInterval(ajax_call, timeoutPeriod);
+}
+
+window.onload = timedRefresh(5000);
+
+</script>
+
+</div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html >
+<head>
+  <meta charset="UTF-8">
+  <title>Haproxy Manager</title>
+  
+
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/css/login.css') }}">
+
+<!--  <script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
+-->
+</head>
+
+<body>
+  <div class="login">
+	<h1>Haproxy Manager</h1>
+    <form method="post">
+    	<input type="text" name="username" id="username" placeholder="Username" required="required" />
+        <input type="password" name="password"  id="password" placeholder="Password" required="required" />
+        <button type="submit" class="btn btn-primary btn-block btn-large">Let me in.</button>
+    </form>
+</div>
+  
+</body>
+</html>

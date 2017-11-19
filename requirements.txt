@@ -1,0 +1,5 @@
+Flask==0.12.2
+haproxyadmin==0.2.1
+argparse==1.2.1
+ansible==2.1.1.0
+Flask-simpleldap==1.1.1

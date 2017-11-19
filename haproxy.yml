@@ -1,0 +1,19 @@
+---
+- hosts: localhost
+  tasks:
+
+    - name: Run haproxy sockets script
+      shell: python {{ playbook_dir }}/haproxyadm.py --backend_name {{ haproxy_backend }}
+      register: socket
+
+    - name: "{{ action }} server from haproxy"
+      haproxy:
+        state: "{{ action }}"
+        host: "{{ haproxy_host }}"
+        socket: "/var/lib/haproxy/stats{{ item }}"
+        backend: "{{ haproxy_backend }}"
+        wait: yes
+        wait_retries: 10
+        wait_interval: 3
+      with_items: "{{ socket.stdout }}"
+

@@ -1,0 +1,115 @@
+/*reset css*/
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, font, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	font-size: 17px;
+	line-height:20px;
+	vertical-align: top;
+	background: none repeat scroll 0 0 transparent;
+	font-family: Tahoma;
+}
+body {
+	line-height: 1;
+	background-color:##FCF2DE;
+}
+a
+{
+color:#990000;
+font-weight:bold;
+text-decoration:none;
+cursor:pointer;
+}
+a:hover
+{
+color:#000000;
+font-weight:bold;
+text-decoration:underline;
+}
+
+
+#topsection{
+background: #537f68;
+height: 70px; /*Height of top section*/
+padding-top:5px;
+}
+
+#topsection h1{
+margin: 0;
+padding-top: 15px;
+}
+
+.innertube{
+margin: 0px; /*Margins for inner DIV inside each column (to provide padding)*/
+margin-top: 0;
+padding:0px;
+}
+
+.mainwidtharea
+{
+min-width:960px;
+}
+
+.topright
+{
+float:right; 
+margin-right:20px;
+font-size:12px;
+text-align:right;
+width:auto;
+}
+.topright span
+{
+font-size:28px;
+color:#FFFFFF;
+line-height:35px;
+}
+
+.tg  {
+  border-collapse:collapse;
+  border-spacing:0;
+  border-color:#bbb;
+  margin:auto;
+}
+.tg td{
+  font-family:Arial, sans-serif;
+  font-size:14px;
+  padding:10px 5px;
+  border-style:solid;
+  border-width:1px;
+  overflow:hidden;
+  word-break:normal;
+  border-color:#bbb;
+  color:#594F4F;
+  background-color:#E0FFEB;
+}
+.tg th{
+  font-family:Arial, sans-serif;
+  font-size:14px;
+  font-weight:bold;
+  padding:10px 5px;
+  border-style:solid;
+  border-width:1px;
+  overflow:hidden;
+  word-break:normal;
+  border-color:#bbb;
+  color:#493F3F;
+  background-color:#9DE0AD;
+}
+.tg .tg-baqh{
+  text-align:center;
+  vertical-align:top
+}
+.tg .tg-yw4l{
+  vertical-align:top
+}
+

@@ -1,4 +1,4 @@
-# HAProxyManager
+# LB-Manager
 
 HAProxy is free, open source software that provides a high availability load balancer and proxy server for TCP and HTTP-based applications that spreads requests across multiple servers. The applications running behind HAProxy are typically updated in a round-robin fashion to ensure there is no downtime. A standard procedure of update involves disabling the node running that application from HAProxy, update the application and then enable it back. To enable and disable application nodes, HAProxy stats UI can be used but it's major drawback is it only works if HAProxy is running as a single process. HAProxy Manager was designed to counter that drawback and ease the process of deployment.
 
@@ -7,7 +7,6 @@ HAProxy is free, open source software that provides a high availability load bal
 ### Environment
 ```
 Centos 7, Python 2.7, x86-64 Architecture
-
 ```
 
 ### Install Yum Dependencies

@@ -1,0 +1,33 @@
+<table class="tg" id="table-body">
+      <tr>
+         <th>Application</th>
+         <th>Haproxy Servers</th>
+         <th>Current State</th>
+         <th>Active Connections</th>
+         <th></th>
+      </tr>
+
+      {% for app in doc %}
+        {% for server in doc[app].servers %}
+
+        <tr id="{{ app }}">
+
+        {% if loop.first %}
+          <td rowspan="{{ doc[app].servers | length }}">{{ app }}</td>
+        {% endif %}
+
+        <td>{{ server }}</td>
+        <td>{{ doc[app].servers[server] }}</td>
+        <td>{{ doc[app].requests[server] }}</td>
+        <td>
+            {% if doc[app].servers[server] == "UP" %}
+            <a href="#" id="{{ server }}" class="{{ app }}" onclick="changeText(this)">Disable</a>
+            {% else %}
+            <a href="#" id="{{ server }}" class="{{ app }}" onclick="changeText(this)">Enable</a>
+            {% endif %}
+        </td>
+        </tr>
+        {% endfor %}
+      {% endfor %}
+
+   </table>

@@ -59,7 +59,7 @@ Before running the tool you need to enter your environment config parameters in 
     stats socket /var/lib/haproxy/stats6 process 6 level admin
 ```
 
-As Flask webserver is not suitable to run in production environment, we run this application with Apache mod_wsgi web server. WSGI daemon processes cannot be run as root. So you need to ensure the user, group specified in apache mod_wsgi configuration has access to haproxymanager dir and haproxy sockets dir.
+As Flask webserver is not suitable to run in production environment, we run this application with Apache mod_wsgi web server. WSGI daemon processes cannot be run as root. So you need to ensure the user, group specified in apache mod_wsgi configuration has access to lb-manager dir and haproxy sockets dir.
 
 ### Sample Apache Configuration
 
@@ -68,11 +68,11 @@ WSGISocketPrefix <path_to_repository/logs>
 <VirtualHost *:5000>
     ServerName <servername>
 
-    WSGIDaemonProcess haproxymanager user=<user> group=<group> home=<path_to_repository>
+    WSGIDaemonProcess lb-manager user=<user> group=<group> home=<path_to_repository>
     WSGIScriptAlias / <path_to_wsgi_file>
 
     <Directory <path_to_repository>>
-        WSGIProcessGroup haproxymanager
+        WSGIProcessGroup lb-manager
         WSGIApplicationGroup %{GLOBAL}
         WSGIScriptReloading On
         Order deny,allow
